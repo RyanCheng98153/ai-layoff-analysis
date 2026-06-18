@@ -73,5 +73,10 @@ ggplot(analysis_data, aes(x = Total_CapEx, y = Total_Laid_Off)) +
        color = "年度") +
   theme_minimal()
 
+# check if output directory exists, if not create it
+if (!dir.exists("output")) {
+  dir.create("output")
+}
+
 # 儲存圖表
 ggsave("output/BigEx vs 裁員.png", width = 10, height = 6)
