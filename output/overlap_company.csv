@@ -1,0 +1,5 @@
+layoff_name,ai_adoption_name,similarity,is_real_data
+Amazon,Amazon,100,True
+Microsoft,Microsoft,100,True
+Google,Google,100,True
+Tesla,Tesla,100,True

@@ -1,0 +1,9 @@
+layoff_name,ai_adoption_name,similarity,is_real_data
+Retail,Retail,100,True
+Finance,Finance,100,True
+Energy,Energy,100,True
+Logistics,Logistics,100,False
+Healthcare,Healthcare,100,False
+Manufacturing,Manufacturing,100,False
+e-commerce,E-commerce,100,True
+Logistic,Logistics,94,False
