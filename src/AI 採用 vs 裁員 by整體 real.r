@@ -102,25 +102,6 @@ ind_stats_labels <- ind_combined %>%
                         sprintf("Pearson r: %.2f\nSpearman r: %.2f\nP: %.3f", 
                                 pearson_r, spearman_r, p_val)))
 
-# 繪製 N 宮格圖
-p1 <- ggplot(ind_combined %>% left_join(ind_stats_labels, by="Industry"), aes(x = Year)) +
-  geom_ribbon(aes(ymin = ai_low, ymax = ai_up, fill = "AI Adoption CI"), alpha = 0.2) +
-  geom_line(aes(y = ai_mean, color = "AI Adoption Mean"), size = 1) +
-  geom_ribbon(aes(ymin = layoff_low, ymax = layoff_up, fill = "Layoff Rate CI"), alpha = 0.2) +
-  geom_line(aes(y = layoff_mean, color = "Layoff Rate Mean"), size = 1) +
-  facet_wrap(~Industry, scales = "free_y") +
-  geom_text(aes(x = -Inf, y = Inf, label = label), 
-            hjust = -0.05, vjust = 1.2, size = 2.8, inherit.aes = FALSE, check_overlap = TRUE) +
-  scale_fill_manual(values = c("AI Adoption CI" = "#377eb8", "Layoff CI" = "#e41a1c")) +
-  scale_color_manual(values = c("AI Adoption Mean" = "#377eb8", "Layoff Rate Mean" = "#e41a1c")) +
-  labs(title = "AI Adoption vs. Layoff Rate by Industry (2020-2025)",
-       subtitle = "Shaded areas represent 95% Confidence Intervals",
-       y = "Percentage (%)", x = "Year") +
-  theme_bw() +
-  theme(legend.position = "bottom", strip.text = element_text(face="bold"))
-
-print(p1)
-ggsave("./output/Industry_Correlation_Analysis.png", p1, width = 15, height = 11, dpi = 300)
 
 # ==========================================
 # 5. 分析二：Real Data 每年平均趨勢 (整體相關性)
@@ -166,8 +147,9 @@ p2 <- ggplot(overall_combined, aes(x = Year)) +
   annotate("text", x = 2022.7, y = max(overall_combined$ai_up, na.rm=T), 
            label = "ChatGPT Launch", color = "darkgreen", angle = 90, vjust = -0.5) +
   # 標註統計數值
-  annotate("label", x = 2020.2, y = max(overall_combined$ai_up, na.rm=T), 
+  annotate("label", x = 2020.2, y = 10 + max(overall_combined$ai_up, na.rm=T), 
            label = overall_stats_text, hjust = 0, size = 4.5, fill = "white", alpha = 0.7) +
+  scale_y_continuous(expand = expansion(mult = c(0.1, 0.1))) + # 頂部留 30% 空間給標籤
   scale_fill_manual(values = c("AI Adoption (Real) CI" = "#377eb8", "Layoff Rate CI" = "#e41a1c")) +
   scale_color_manual(values = c("AI Adoption (Real) Mean" = "#377eb8", "Layoff Rate Mean" = "#e41a1c")) +
   labs(title = "Global Trend: Real AI Adoption vs. Tech Layoffs",
@@ -177,6 +159,6 @@ p2 <- ggplot(overall_combined, aes(x = Year)) +
   theme(legend.position = "bottom", plot.title = element_text(size=16, face="bold"))
 
 print(p2)
-ggsave("./output/AI 採用 vs 裁員 by整體 real.png", p2, width = 10, height = 12, dpi = 300)
+ggsave("./output/AI 採用 vs 裁員 by整體 real.png", p2, width = 10, height = 8, dpi = 300)
 
 message("分析完成！圖檔已儲存於 ./output 資料夾。")
